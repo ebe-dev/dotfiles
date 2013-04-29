@@ -1,59 +1,63 @@
 " Environment {
-    " Basics {
-        set nocompatible        " must be first line
-        set background=dark     " Assume a dark background
-    " }    
-" Setup Bundle Support {
-    " The next three lines ensure that the ~/.vim/bundle/ system works
-        filetype off
-        set rtp+=~/.vim/bundle/vundle
-        call vundle#rc()
-    " }
+  " Basics {
+    set nocompatible        " must be first line
+    set background=dark     " Assume a dark background
+  " }
+
+  " Setup Bundle Support {
+  " The next three lines ensure that the ~/.vim/bundle/ system works
+    filetype off
+    set rtp+=~/.vim/bundle/vundle
+    call vundle#rc()
+  " }
 
 " }
 
 " Bundles {
-	" Deps
-	   Bundle 'gmarik/vundle'
-		Bundle 'MarcWeber/vim-addon-mw-utils'
-   	Bundle 'tomtom/tlib_vim'
+  " Deps
+  Bundle 'gmarik/vundle'
+  Bundle 'MarcWeber/vim-addon-mw-utils'
+  Bundle 'tomtom/tlib_vim'
 
-    " General
-		Bundle 'Valloric/YouCompleteMe.git'
-		Bundle 'Valloric/vim-instant-markdown.git'
-		Bundle 'Valloric/vim-operator-highlight.git'
-		Bundle 'scrooloose/nerdtree'
-      Bundle 'altercation/vim-colors-solarized'
-		Bundle 'Valloric/vim-valloric-colorscheme.git'
-      Bundle 'spf13/vim-colors'
-      Bundle 'tpope/vim-surround'
-      Bundle 'spf13/vim-autoclose'
-      Bundle 'kien/ctrlp.vim'
-      Bundle 'vim-scripts/sessionman.vim'
-      Bundle 'matchit.zip'
-    	Bundle 'Lokaltog/powerline', {'rtp':'/powerline/bindings/vim'}
-      Bundle 'Lokaltog/vim-easymotion'
-      Bundle 'godlygeek/csapprox'
-      Bundle 'jistr/vim-nerdtree-tabs'
-      Bundle 'flazz/vim-colorschemes'
-      Bundle 'mbbill/undotree'
-      Bundle 'myusuf3/numbers.vim'
-      Bundle 'nathanaelkane/vim-indent-guides'
-      Bundle 'vim-scripts/restore_view.vim'
-      Bundle 'airblade/vim-gitgutter'
-      Bundle 'tpope/vim-abolish.git'
- 
-    " General Programming
-    	Bundle 'scrooloose/syntastic'
-    	Bundle 'tpope/vim-fugitive'
-    	Bundle 'mattn/webapi-vim'
-    	Bundle 'mattn/gist-vim'
-    	Bundle 'scrooloose/nerdcommenter'
-      Bundle 'godlygeek/tabular'
+  " Need to be compiled
+  Bundle 'Valloric/YouCompleteMe.git'
 
- 		" Snippets
-		Bundle 'SirVer/ultisnips'
+  " General
+  Bundle 'Valloric/vim-instant-markdown.git'
+  Bundle 'Valloric/vim-operator-highlight.git'
+  Bundle 'scrooloose/nerdtree'
+  Bundle 'altercation/vim-colors-solarized'
+  Bundle 'Valloric/vim-valloric-colorscheme.git'
+  Bundle 'spf13/vim-colors'
+  Bundle 'tpope/vim-surround'
+  Bundle 'spf13/vim-autoclose'
+  Bundle 'kien/ctrlp.vim'
+  Bundle 'vim-scripts/sessionman.vim'
+  Bundle 'matchit.zip'
+  Bundle 'Lokaltog/powerline' , {'rtp':'/powerline/bindings/vim'}
+  "Bundle 'Lokaltog/powerline-fonts'
+  Bundle 'Lokaltog/vim-easymotion'
+  Bundle 'godlygeek/csapprox'
+  Bundle 'jistr/vim-nerdtree-tabs'
+  Bundle 'flazz/vim-colorschemes'
+  Bundle 'mbbill/undotree'
+  Bundle 'myusuf3/numbers.vim'
+  Bundle 'nathanaelkane/vim-indent-guides'
+  Bundle 'vim-scripts/restore_view.vim'
+  Bundle 'airblade/vim-gitgutter'
+  Bundle 'tpope/vim-abolish.git'
 
-		
+  " General Programming
+  Bundle 'scrooloose/syntastic'
+  Bundle 'tpope/vim-fugitive'
+  Bundle 'mattn/webapi-vim'
+  Bundle 'mattn/gist-vim'
+  Bundle 'scrooloose/nerdcommenter'
+  Bundle 'godlygeek/tabular'
+
+  " Snippets
+  Bundle 'SirVer/ultisnips'
+
+
 
 

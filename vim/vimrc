@@ -23,10 +23,6 @@
 
 " General {
 
-    set background=dark         " Assume a dark background
-    if !has('gui')
-        "set term=$TERM          " Make arrow and other keys work
-    endif
     filetype plugin indent on   " Automatically detect file types.
     syntax on                   " Syntax highlighting
     set mouse=a                 " Automatically enable mouse usage
@@ -35,8 +31,6 @@
 
     if has ('x') && has ('gui') " On Linux use + register for copy-paste
         set clipboard=unnamedplus
-    elseif has ('gui')          " On mac and Windows, use * register for copy-paste
-        set clipboard=unnamed
     endif
 
     " Most prefer to automatically switch to the current file directory when
@@ -51,7 +45,7 @@
     set nospell                         " Spell checking on/off
     set hidden                          " Allow buffer switching without saving
 
-    " Setting up the directories {
+    " Setting up the directories
         set backup                  " Backups are nice ...
         if has('persistent_undo')
             set undofile                " So is persistent undo ...
@@ -64,14 +58,17 @@
         let g:skipview_files = [
         		\ '\[example pattern\]'
         		\ ]
-    " }
 
 " }
 
 " Vim UI {
+    set t_Co=256
 
     let g:solarized_termcolors=256
-    color solarized                 " Load a colorscheme
+    let g:solarized_contrast="high"
+    let g:solarized_visibility="high"
+    colorscheme solarized                 " Load a colorscheme
+    set background=dark             " Assume a dark background
     set tabpagemax=15               " Only show 15 tabs
     set showmode                    " Display the current mode
 
@@ -89,7 +86,6 @@
 
     if has('statusline')
         set laststatus=2
-
         " Broken down into easily includeable segments
         set statusline=%<%f\                     " Filename
         set statusline+=%w%h%m%r                 " Options
@@ -123,7 +119,7 @@
 
     set nowrap                      " Wrap long lines
     set autoindent                  " Indent at the same level of the previous line
-    set shiftwidth=3                " Use indents of 4 spaces
+    set shiftwidth=3                " Use indents of 3 spaces
     set expandtab                   " Tabs are spaces, not tabs
     set tabstop=3                   " An indentation every four columns
     set softtabstop=3               " Let backspace delete indent
@@ -140,13 +136,13 @@
 " Key (re)Mappings {
 
     " The default leader is '\', but many people prefer ',' as it's in a standard
-    " location. 
+    " location.
     let mapleader = ','
 
 	" toggles vim's paste mode; when we want to paste something into vim from a
 	" different application, turning on paste mode prevents the insertion of extra
 	" whitespace
-	set pastetoggle=<F7>
+    set pastetoggle=<F7>
 
     " Easier moving in tabs and windows
     " The lines conflict with the default digraph mapping of <C-K>
@@ -166,15 +162,15 @@
 
     " Stupid shift key fixes
     if has("user_commands")
-	    command! -bang -nargs=* -complete=file E e<bang> <args>
-       command! -bang -nargs=* -complete=file W w<bang> <args>
-       command! -bang -nargs=* -complete=file Wq wq<bang> <args>
-       command! -bang -nargs=* -complete=file WQ wq<bang> <args>
-       command! -bang Wa wa<bang>
-       command! -bang WA wa<bang>
-       command! -bang Q q<bang>
-       command! -bang QA qa<bang>
-       command! -bang Qa qa<bang>
+        command! -bang -nargs=* -complete=file E e<bang> <args>
+        command! -bang -nargs=* -complete=file W w<bang> <args>
+        command! -bang -nargs=* -complete=file Wq wq<bang> <args>
+        command! -bang -nargs=* -complete=file WQ wq<bang> <args>
+        command! -bang Wa wa<bang>
+        command! -bang WA wa<bang>
+        command! -bang Q q<bang>
+        command! -bang QA qa<bang>
+        command! -bang Qa qa<bang>
     endif
 
     " Yank from the cursor to the end of the line, to be consistent with C and D.
@@ -233,262 +229,265 @@
     map zl zL
     map zh zH
 
-	" in normal mode F2 will save the file
- 	nmap <F2> :w<CR>
-	" in insert mode F2 will exit insert, save, enters insert again
- 	imap <F2> <ESC>:w<CR>i
-	" switch between header/source with F4
- 	map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
-	" <F10> -> spelltoggle
-	map <F11> :set list!<CR>"
+    " in normal mode F2 will save the file
+    nmap <F2> :w<CR>
+    " in insert mode F2 will exit insert, save, enters insert again
+    imap <F2> <ESC>:w<CR>i
+    " switch between header/source with F4
+    map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
+    " <F10> -> spelltoggle
+    map <F11> :set list!<CR>"
 
-	" Unicode support (taken from http://vim.wikia.com/wiki/Working_with_Unicode)
-	if has("multi_byte")
-  		if &termencoding == ""
-    		let &termencoding = &encoding
-  		endif
-  		set encoding=utf-8
-  		setglobal fileencoding=utf-8
-  		set fileencodings=ucs-bom,utf-8,latin1
-	endif
+    " Unicode support (taken from http://vim.wikia.com/wiki/Working_with_Unicode)
+    if has("multi_byte")
+        if &termencoding == ""
+            let &termencoding = &encoding
+        endif
+        set encoding=utf-8
+        setglobal fileencoding=utf-8
+        set fileencodings=ucs-bom,utf-8,latin1
+    endif
 
-	augroup vimrc
-  		" When editing a file, always jump to the last known cursor position.
-  		" Don't do it when the position is invalid or when inside an event handler
-  		" (happens when dropping a file on gvim).
-  		" Also don't do it when the mark is in the first line, that is the default
-  		" position when opening a file.
-  		autocmd BufReadPost *
-      	\ if line("'\"") > 1 && line("'\"") <= line("$") && !&diff |
-         \   exe "normal! g`\"" |
-         \ endif
+    augroup vimrc
+        " When editing a file, always jump to the last known cursor position.
+        " Don't do it when the position is invalid or when inside an event handler
+        " (happens when dropping a file on gvim).
+        " Also don't do it when the mark is in the first line, that is the default
+        " position when opening a file.
+        autocmd BufReadPost *
+                    \ if line("'\"") > 1 && line("'\"") <= line("$") && !&diff |
+                    \   exe "normal! g`\"" |
+                    \ endif
 
-  		" Automatically delete trailing DOS-returns and whitespace on file open and
-  		" write.
-  		autocmd BufRead,BufWritePre,FileWritePre * silent! %s/[\r \t]\+$//
-	augroup END
+        " Automatically delete trailing DOS-returns and whitespace on file open and
+        " write.
+        autocmd BufRead,BufWritePre,FileWritePre * silent! %s/[\r \t]\+$//
+    augroup END
 
-	" this maximizes the gvim window on startup
-   if !has("gui_macvim")
-   	au vimrc GUIEnter * set lines=999 columns=999
-  	endif
+    " this maximizes the gvim window on startup
+    au vimrc GUIEnter * set lines=999 columns=999
 
-	" Sets a font for the GUI
-	set guifont=Consolas\ 11
-	
-	" Convenient command to see the difference between the current buffer and the
-	" file it was loaded from, thus the changes you made.
-	command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-   	\ | wincmd p | diffthis
+    " Sets a font for the GUI
+    set guifont=Consolas\ 11
 
-	" Sometimes, $MYVIMRC does not get set even though the vimrc is sourced
-	" properly. So far, I've only seen this on Linux machines on rare occasions.
-	if has("unix") && strlen($MYVIMRC) < 1
-  		let $MYVIMRC=$HOME . '/.vimrc'
-	endif
+    " Convenient command to see the difference between the current buffer and the
+    " file it was loaded from, thus the changes you made.
+    command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+                \ | wincmd p | diffthis
 
-	" Highlight Class and Function names
-	function! s:HighlightFunctionsAndClasses()
-  		syn match cCustomFunc      "\w\+\s*\((\)\@="
-  		syn match cCustomClass     "\w\+\s*\(::\)\@="
-  		syn match cCustomDFunc     "\w\+\s*\(!.\{-}(\)\@="
-  		syn match cCustomDFuncUFCS ".\w\+\s*\(!.\{-}\)\@="
+    " Sometimes, $MYVIMRC does not get set even though the vimrc is sourced
+    " properly. So far, I've only seen this on Linux machines on rare occasions.
+    if has("unix") && strlen($MYVIMRC) < 1
+        let $MYVIMRC=$HOME . '/.vimrc'
+    endif
 
-  		hi def link cCustomFunc      Function
-  		hi def link cCustomDFunc     Function
-  		hi def link cCustomDFuncUFCS Function
-  		hi def link cCustomClass     Function
-	endfunction
+    " Highlight Class and Function names
+    function! s:HighlightFunctionsAndClasses()
+        syn match cCustomFunc      "\w\+\s*\((\)\@="
+        syn match cCustomClass     "\w\+\s*\(::\)\@="
+        syn match cCustomDFunc     "\w\+\s*\(!.\{-}(\)\@="
+        syn match cCustomDFuncUFCS ".\w\+\s*\(!.\{-}\)\@="
 
-	" Highlight Class and Function names, D specific
-	function! s:HighlightDFunctionsAndClasses()
-  		syn match cCustomDFunc     "\w\+\s*\(!.\{-}(\)\@="
-  		syn match cCustomDFuncUFCS ".\w\+\s*\(!.\{-}\)\@="
+        hi def link cCustomFunc      Function
+        hi def link cCustomDFunc     Function
+        hi def link cCustomDFuncUFCS Function
+        hi def link cCustomClass     Function
+    endfunction
 
-		hi def link cCustomDFunc     Function
-  		hi def link cCustomDFuncUFCS Function
-	endfunction
+    " Highlight Class and Function names, D specific
+    function! s:HighlightDFunctionsAndClasses()
+        syn match cCustomDFunc     "\w\+\s*\(!.\{-}(\)\@="
+        syn match cCustomDFuncUFCS ".\w\+\s*\(!.\{-}\)\@="
 
-	" TODO: this should:
-	" a) not be called for every filetype
-	" b) be in a separate plugin
-	au vimrc Syntax * call s:HighlightFunctionsAndClasses()
-	au vimrc Syntax d call s:HighlightDFunctionsAndClasses()
+        hi def link cCustomDFunc     Function
+        hi def link cCustomDFuncUFCS Function
+    endfunction
 
-	" TODO: split this into separate plugin
-	function! VisualSearch(direction) range
-   	let l:saved_reg = @"
-    	execute "normal! vgvy"
+    " TODO: this should:
+    " a) not be called for every filetype
+    " b) be in a separate plugin
+    au vimrc Syntax * call s:HighlightFunctionsAndClasses()
+    au vimrc Syntax d call s:HighlightDFunctionsAndClasses()
 
-    	let l:pattern = escape(@", '\\/.*$^~[]')
-    	let l:pattern = substitute(l:pattern, "\n$", "", "")
+    " TODO: split this into separate plugin
+    function! VisualSearch(direction) range
+        let l:saved_reg = @"
+        execute "normal! vgvy"
 
-    	if a:direction == 'b'
-      	execute "normal ?" . l:pattern . "^M"
-    	elseif a:direction == 'gv'
-      	execute "Ack " . l:pattern . ' %'
-    	elseif a:direction == 'f'
-      	execute "normal /" . l:pattern . "^M"
-    	endif
+        let l:pattern = escape(@", '\\/.*$^~[]')
+        let l:pattern = substitute(l:pattern, "\n$", "", "")
 
-    	let @/ = l:pattern
-    	let @" = l:saved_reg
-	endfunction
+        if a:direction == 'b'
+            execute "normal ?" . l:pattern . "^M"
+        elseif a:direction == 'gv'
+            execute "Ack " . l:pattern . ' %'
+        elseif a:direction == 'f'
+            execute "normal /" . l:pattern . "^M"
+        endif
 
-	"Basically you press * or # to search for the current selection
-	vnoremap <silent> * :call VisualSearch('f')<CR>
-	vnoremap <silent> # :call VisualSearch('b')<CR>
-	vnoremap <silent> gv :call VisualSearch('gv')<CR>
+        let @/ = l:pattern
+        let @" = l:saved_reg
+    endfunction
 
-" }
+    "Basically you press * or # to search for the current selection
+    vnoremap <silent> * :call VisualSearch('f')<CR>
+    vnoremap <silent> # :call VisualSearch('b')<CR>
+    vnoremap <silent> gv :call VisualSearch('gv')<CR>
 
-" Plugins {
+    " }
 
-	" YCM {
-		let g:ycm_autoclose_preview_window_after_completion = 1
-		nnoremap <leader>y :YcmForceCompileAndDiagnostics<cr>
-		nnoremap <leader>pg :YcmCompleter GoToDefinitionElseDeclaration<CR>
-		nnoremap <leader>pd :YcmCompleter GoToDefinition<CR>
-		nnoremap <leader>pc :YcmCompleter GoToDeclaration<CR> 
-	" }
+    " Plugins {
 
-	" Syntastic {
-		let g:syntastic_error_symbol = '✗'
-		let g:syntastic_warning_symbol = '⚠'
-		let g:syntastic_always_populate_loc_list = 1
-		"let g:syntastic_python_checkers = ['pyflakes']
-	" }
+    " YCM {
+    let g:ycm_autoclose_preview_window_after_completion = 1
+    nnoremap <leader>y :YcmForceCompileAndDiagnostics<cr>
+    nnoremap <leader>pg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+    nnoremap <leader>pd :YcmCompleter GoToDefinition<CR>
+    nnoremap <leader>pc :YcmCompleter GoToDeclaration<CR>
+    " }
 
     " PIV {
-        let g:DisableAutoPHPFolding = 0
-        let g:PIVAutoClose = 0
+    let g:DisableAutoPHPFolding = 0
+    let g:PIVAutoClose = 0
     " }
 
     " Misc {
-        let g:NERDShutUp=1
-        let b:match_ignorecase = 1
+    let g:NERDShutUp=1
+    let b:match_ignorecase = 1
     " }
 
     " NerdTree {
-        map <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
-        map <leader>e :NERDTreeFind<CR>
-        nmap <leader>nt :NERDTreeFind<CR>
+    map <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
+    map <leader>e :NERDTreeFind<CR>
+    nmap <leader>nt :NERDTreeFind<CR>
 
-        let NERDTreeShowBookmarks=1
-        let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
-        let NERDTreeChDirMode=0
-        let NERDTreeQuitOnOpen=1
-        let NERDTreeMouseMode=2
-        let NERDTreeShowHidden=1
-        let NERDTreeKeepTreeInNewTab=1
-        let g:nerdtree_tabs_open_on_gui_startup=0
+    let NERDTreeShowBookmarks=1
+    let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+    let NERDTreeChDirMode=0
+    let NERDTreeQuitOnOpen=1
+    let NERDTreeMouseMode=2
+    let NERDTreeShowHidden=1
+    let NERDTreeKeepTreeInNewTab=1
+    let g:nerdtree_tabs_open_on_gui_startup=0
 
-		  " additional toggles
-	     nnoremap <F3> :NERDTreeToggle<cr>
+    " additional toggles
+    nnoremap <F3> :NERDTreeToggle<cr>
     " }
 
     " Tabularize {
-        nmap <Leader>a& :Tabularize /&<CR>
-        vmap <Leader>a& :Tabularize /&<CR>
-        nmap <Leader>a= :Tabularize /=<CR>
-        vmap <Leader>a= :Tabularize /=<CR>
-        nmap <Leader>a: :Tabularize /:<CR>
-        vmap <Leader>a: :Tabularize /:<CR>
-        nmap <Leader>a:: :Tabularize /:\zs<CR>
-        vmap <Leader>a:: :Tabularize /:\zs<CR>
-        nmap <Leader>a, :Tabularize /,<CR>
-        vmap <Leader>a, :Tabularize /,<CR>
-        nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-        vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+    nmap <Leader>a& :Tabularize /&<CR>
+    vmap <Leader>a& :Tabularize /&<CR>
+    nmap <Leader>a= :Tabularize /=<CR>
+    vmap <Leader>a= :Tabularize /=<CR>
+    nmap <Leader>a: :Tabularize /:<CR>
+    vmap <Leader>a: :Tabularize /:<CR>
+    nmap <Leader>a:: :Tabularize /:\zs<CR>
+    vmap <Leader>a:: :Tabularize /:\zs<CR>
+    nmap <Leader>a, :Tabularize /,<CR>
+    vmap <Leader>a, :Tabularize /,<CR>
+    nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+    vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
     " }
 
     " Session List {
-        set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
-        nmap <leader>sl :SessionList<CR>
-        nmap <leader>ss :SessionSave<CR>
+    set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
+    nmap <leader>sl :SessionList<CR>
+    nmap <leader>ss :SessionSave<CR>
     " }
 
     " JSON {
-        nmap <leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
+    nmap <leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
     " }
 
     " PyMode {
-        let g:pymode_lint_checker = "pyflakes"
-        let g:pymode_utils_whitespaces = 0
-        let g:pymode_options = 0
+    let g:pymode_lint_checker = "pyflakes"
+    let g:pymode_utils_whitespaces = 0
+    let g:pymode_options = 0
     " }
 
     " ctrlp {
-        let g:ctrlp_working_path_mode = 2
-        nnoremap <silent> <D-t> :CtrlP<CR>
-        nnoremap <silent> <D-r> :CtrlPMRU<CR>
-        let g:ctrlp_custom_ignore = {
-            \ 'dir':  '\.git$\|\.hg$\|\.svn$',
-            \ 'file': '\.exe$\|\.so$\|\.dll$' }
+    let g:ctrlp_working_path_mode = 2
+    nnoremap <silent> <D-t> :CtrlP<CR>
+    nnoremap <silent> <D-r> :CtrlPMRU<CR>
+    let g:ctrlp_custom_ignore = {
+                \ 'dir':  '\.git$\|\.hg$\|\.svn$',
+                \ 'file': '\.exe$\|\.so$\|\.dll$' }
 
-        let g:ctrlp_user_command = {
-            \ 'types': {
+    let g:ctrlp_user_command = {
+                \ 'types': {
                 \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
                 \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-            \ },
-            \ 'fallback': 'find %s -type f'
-        \ }
+                \ },
+                \ 'fallback': 'find %s -type f'
+                \ }
     "}
 
     " TagBar {
-        nnoremap <silent> <leader>tt :TagbarToggle<CR>
+    nnoremap <silent> <leader>tt :TagbarToggle<CR>
 
-        " If using go please install the gotags program using the following
-        " go install github.com/jstemmer/gotags
-        " And make sure gotags is in your path
-        let g:tagbar_type_go = {
-            \ 'ctagstype' : 'go',
-            \ 'kinds'     : [  'p:package', 'i:imports:1', 'c:constants', 'v:variables',
+    " If using go please install the gotags program using the following
+    " go install github.com/jstemmer/gotags
+    " And make sure gotags is in your path
+    let g:tagbar_type_go = {
+                \ 'ctagstype' : 'go',
+                \ 'kinds'     : [  'p:package', 'i:imports:1', 'c:constants', 'v:variables',
                 \ 't:types',  'n:interfaces', 'w:fields', 'e:embedded', 'm:methods',
                 \ 'r:constructor', 'f:functions' ],
-            \ 'sro' : '.',
-            \ 'kind2scope' : { 't' : 'ctype', 'n' : 'ntype' },
-            \ 'scope2kind' : { 'ctype' : 't', 'ntype' : 'n' },
-            \ 'ctagsbin'  : 'gotags',
-            \ 'ctagsargs' : '-sort -silent'
-            \ }
+                \ 'sro' : '.',
+                \ 'kind2scope' : { 't' : 'ctype', 'n' : 'ntype' },
+                \ 'scope2kind' : { 'ctype' : 't', 'ntype' : 'n' },
+                \ 'ctagsbin'  : 'gotags',
+                \ 'ctagsargs' : '-sort -silent'
+                \ }
     "}
 
     " PythonMode {
     " Disable if python support not present
-        if !has('python')
-            let g:pymode = 1
-        endif
+    if !has('python')
+        let g:pymode = 1
+    endif
     " }
 
     " Fugitive {
-        nnoremap <silent> <leader>gs :Gstatus<CR>
-        nnoremap <silent> <leader>gd :Gdiff<CR>
-        nnoremap <silent> <leader>gc :Gcommit<CR>
-        nnoremap <silent> <leader>gb :Gblame<CR>
-        nnoremap <silent> <leader>gl :Glog<CR>
-        nnoremap <silent> <leader>gp :Git push<CR>
-        nnoremap <silent> <leader>gw :Gwrite<CR>:GitGutter<CR>
-        nnoremap <silent> <leader>gg :GitGutterToggle<CR>
+    nnoremap <silent> <leader>gs :Gstatus<CR>
+    nnoremap <silent> <leader>gd :Gdiff<CR>
+    nnoremap <silent> <leader>gc :Gcommit<CR>
+    nnoremap <silent> <leader>gb :Gblame<CR>
+    nnoremap <silent> <leader>gl :Glog<CR>
+    nnoremap <silent> <leader>gp :Git push<CR>
+    nnoremap <silent> <leader>gw :Gwrite<CR>:GitGutter<CR>
+    nnoremap <silent> <leader>gg :GitGutterToggle<CR>
     "}
 
-     " UndoTree {
-        nnoremap <Leader>u :UndotreeToggle<CR>
-        " If undotree is opened, it is likely one wants to interact with it.
-        let g:undotree_SetFocusWhenToggle=1
+    " Powerline {
+    let g:Powerline_cache_file = $HOME . '/tmp/Powerline.cache'
+    " }
+
+    " UndoTree {
+    nnoremap <Leader>u :UndotreeToggle<CR>
+    " If undotree is opened, it is likely one wants to interact with it.
+    let g:undotree_SetFocusWhenToggle=1
     " }
 
     " indent_guides {
-	    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#212121 ctermbg=3
-	    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#404040 ctermbg=4
-       let g:indent_guides_start_level = 2
-       let g:indent_guides_guide_size = 1
-       let g:indent_guides_enable_on_vim_startup = 1
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#212121 ctermbg=3
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#404040 ctermbg=4
+    let g:indent_guides_start_level = 2
+    let g:indent_guides_guide_size = 1
+    let g:indent_guides_enable_on_vim_startup = 1
     " }
 
-" }
+    
+    " Syntastic {
+    let g:syntastic_error_symbol = '✗'
+    let g:syntastic_warning_symbol = '⚠'
+    let g:syntastic_always_populate_loc_list = 1
+    "let g:syntastic_python_checkers = ['pyflakes']
+    " }
 
-" GUI Settings {
+    " }
+
+    " GUI Settings {
 
     " GVIM- (here instead of .gvimrc)
     if has('gui_running')
@@ -502,18 +501,18 @@
         "set term=builtin_ansi       " Make arrow and other keys work
     endif
 
-" }
+    " }
 
-" Functions {
+    " Functions {
 
     " UnBundle {
     function! UnBundle(arg, ...)
-      let bundle = vundle#config#init_bundle(a:arg, a:000)
-      call filter(g:bundles, 'v:val["name_spec"] != "' . a:arg . '"')
+        let bundle = vundle#config#init_bundle(a:arg, a:000)
+        call filter(g:bundles, 'v:val["name_spec"] != "' . a:arg . '"')
     endfunction
 
     com! -nargs=+         UnBundle
-    \ call UnBundle(<args>)
+                \ call UnBundle(<args>)
     " }
 
     " Initialize directories {
@@ -582,8 +581,8 @@
     endfunction
     " }
 
-" }
-
-" Finish local initializations {
+    " Finish local initializations {
     call InitializeDirectories()
-" }
+    " }
+
+    " }
