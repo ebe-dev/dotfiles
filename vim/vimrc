@@ -62,13 +62,14 @@
 " }
 
 " Vim UI {
+    colorscheme desert256                 " Load a colorscheme
     set t_Co=256
 
-    let g:solarized_termcolors=256
-    let g:solarized_contrast="high"
-    let g:solarized_visibility="high"
-    colorscheme solarized                 " Load a colorscheme
-    set background=dark             " Assume a dark background
+    ""let g:solarized_termcolors=256
+    ""let g:solarized_contrast="high"
+    ""let g:solarized_visibility="high"
+
+    ""set background=dark             " Assume a dark background
     set tabpagemax=15               " Only show 15 tabs
     set showmode                    " Display the current mode
 
@@ -477,7 +478,7 @@
     let g:indent_guides_enable_on_vim_startup = 1
     " }
 
-    
+
     " Syntastic {
     let g:syntastic_error_symbol = '✗'
     let g:syntastic_warning_symbol = '⚠'

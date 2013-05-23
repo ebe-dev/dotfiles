@@ -58,6 +58,7 @@
   " Snippets
   Bundle 'SirVer/ultisnips'
 
-
+  " Latex
+  "Bundle 'coot/atp_vim'
 
 
